@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Sanduba.Cloud.Function.MercadoPago": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7093"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 32385,
+      "useSSL": false
+    }
+  }
+}
