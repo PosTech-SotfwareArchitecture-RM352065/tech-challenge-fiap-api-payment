@@ -10,7 +10,9 @@ WORKDIR /src
 COPY ["Sanduba.Cloud.Function.MercadoPago/Sanduba.Cloud.Function.MercadoPago.csproj", "Sanduba.Cloud.Function.MercadoPago/"]
 COPY ["Sanduba.Core.Application/Sanduba.Core.Application.csproj", "Sanduba.Core.Application/"]
 COPY ["Sanduba.Core.Domain/Sanduba.Core.Domain.csproj", "Sanduba.Core.Domain/"]
+COPY ["Sanduba.Infrastructure.Broker.ServiceBus/Sanduba.Infrastructure.Broker.ServiceBus.csproj", "Sanduba.Infrastructure.Broker.ServiceBus/"]
 COPY ["Sanduba.Infrastructure.Persistence.MongoDb/Sanduba.Infrastructure.Persistence.MongoDb.csproj", "Sanduba.Infrastructure.Persistence.MongoDb/"]
+COPY ["Sanduba.Infrastructure.MercadoPagoAPI/Sanduba.Infrastructure.MercadoPagoAPI.csproj", "Sanduba.Infrastructure.MercadoPagoAPI/"]
 RUN dotnet restore "./Sanduba.Cloud.Function.MercadoPago/Sanduba.Cloud.Function.MercadoPago.csproj"
 COPY . .
 WORKDIR "/src/Sanduba.Cloud.Function.MercadoPago"

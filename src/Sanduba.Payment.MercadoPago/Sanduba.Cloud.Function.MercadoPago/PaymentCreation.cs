@@ -14,10 +14,11 @@ namespace Sanduba.Cloud.Function.MercadoPago
     public class PaymentCreation(
         ILogger<PaymentCreation> logger,
         IPaymentRepository paymentRepository,
-        IPaymentExternalProvider paymentExternalProvider)
+        IPaymentExternalProvider paymentExternalProvider,
+        IPaymentNotification paymentNotification)
     {
         private readonly ILogger<PaymentCreation> _logger = logger;
-        private readonly PaymentInteractor _paymentInteractor = new(paymentRepository, paymentExternalProvider);
+        private readonly PaymentInteractor _paymentInteractor = new(paymentRepository, paymentExternalProvider, paymentNotification);
 
         private JsonSerializerOptions jsonOptions = new JsonSerializerOptions()
         {

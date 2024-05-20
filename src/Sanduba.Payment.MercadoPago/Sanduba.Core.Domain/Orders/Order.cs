@@ -9,11 +9,11 @@ namespace Sanduba.Core.Domain.Orders
     {
         public Order(Guid id) : base(id) { }
 
-        public string Code { get; init; }
+        public string Code { get; set; }
 
-        public Guid ClientId { get; init; }
+        public Guid ClientId { get; set; }
 
-        public List<OrderItem> Items { get; init; }
+        public List<OrderItem> Items { get; set; }
 
         public double TotalAmount => Items.Sum(item => item.Amount);
 

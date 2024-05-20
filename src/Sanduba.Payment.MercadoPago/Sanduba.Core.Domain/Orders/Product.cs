@@ -7,13 +7,13 @@ namespace Sanduba.Core.Domain.Orders
     {
         public Product(Guid id) : base(id) { }
 
-        public string Name { get; init; }
+        public string Name { get; set; }
 
-        public string Description { get; init; }
+        public string Description { get; set; }
 
-        public double UnitPrice { get; init; }
+        public double UnitPrice { get; set; }
 
-        public Category Category { get; init; }
+        public string Category { get; set; }
 
         public override void ValidateEntity()
         {

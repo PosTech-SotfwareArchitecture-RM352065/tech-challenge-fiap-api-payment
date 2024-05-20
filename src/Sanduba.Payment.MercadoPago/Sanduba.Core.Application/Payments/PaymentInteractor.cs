@@ -8,10 +8,14 @@ using PaymentStatus = Sanduba.Core.Application.Payments.ResponseModel.ExternalPr
 namespace Sanduba.Core.Application.Payments
 {
     public class PaymentInteractor(
-        IPaymentRepository paymentRepository, IPaymentExternalProvider externalProvider
-    ){
+        IPaymentRepository paymentRepository,
+        IPaymentExternalProvider externalProvider,
+        IPaymentNotification paymentNotification
+    )
+    {
         private readonly IPaymentRepository _paymentRepository = paymentRepository;
         private readonly IPaymentExternalProvider _externalProvider = externalProvider;
+        private readonly IPaymentNotification _paymentNotification = paymentNotification;
 
         public CreatePaymentResponseModel CreatePayment(CreatePaymentRequestModel requestModel)
         {
@@ -47,6 +51,7 @@ namespace Sanduba.Core.Application.Payments
             if (paymentDetail.Status == PaymentStatus.Cancelled) payment.Result.Cancelled();
 
             _paymentRepository.UpdateAsync(payment.Result, CancellationToken.None).Wait();
+            _paymentNotification.UpdatedPayment(paymentDetail, CancellationToken.None);
         }
 
         public QueryPaymentByIdResponseModel GetPaymentById(QueryPaymentByIdRequestModel requestModel)
