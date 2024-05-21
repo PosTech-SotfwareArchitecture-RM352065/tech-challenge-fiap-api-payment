@@ -12,7 +12,9 @@ namespace Sanduba.Core.Domain.Orders
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return Code;
+            yield return Product.Id;
+            yield return Amount;
+            yield return Currency;
         }
     }
 }
