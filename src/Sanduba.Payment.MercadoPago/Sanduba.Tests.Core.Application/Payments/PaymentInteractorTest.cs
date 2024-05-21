@@ -3,10 +3,13 @@ using Xunit;
 using Moq;
 using Sanduba.Core.Application.Payments;
 using Sanduba.Core.Application.Payments.RequestModel;
-using Sanduba.Core.Application.Payments.ResponseModel;
+using Sanduba.Core.Application.Payments.ResponseModel.ExternalProvider;
 using Sanduba.Core.Domain.Payments;
 using Sanduba.Core.Domain.Orders;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+
 
 namespace Sanduba.Tests.Core.Application
 {
@@ -59,15 +62,19 @@ namespace Sanduba.Tests.Core.Application
                 Provider: Provider.MercadoPago
             );
 
+            _paymentRepositoryMock.Setup(repo => repo.SaveAsync(It.IsAny<Payment>(), CancellationToken.None)).Returns(Task.CompletedTask);
+            _externalProviderMock
+                .Setup(provider => provider.CreateQrCodePayment(It.IsAny<Payment>())).ReturnsAsync(new QrCodePaymentData("externalId", "QrCodeData"));
+            _paymentRepositoryMock.Setup(repo => repo.UpdateAsync(It.IsAny<Payment>(), CancellationToken.None)).Returns(Task.CompletedTask);
+            
             // Act
             var response = _paymentInteractor.CreatePayment(requestModel);
 
             // Assert
             Assert.NotNull(response);
-            Assert.Equal(Status.Created, response.Status);
-            Assert.NotEmpty(response.ExternalId);
-            Assert.NotEmpty(response.QrData);
-            // Add more assertions as needed
+            Assert.Equal(Status.WaitingPayment, response.Status);
+            Assert.Equal("externalId", response.ExternalId);
+            Assert.Equal("QrCodeData", response.QrData);
         }
 
     //     [Fact]
