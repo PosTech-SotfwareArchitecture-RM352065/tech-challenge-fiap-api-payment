@@ -36,7 +36,7 @@ namespace Sanduba.Tests.Core.Application.Payments
         public void CreatePayment_ValidRequest_ReturnsSuccessResponse()
         {
             // Arrange
-            var requestModel = PaymentFixtures.ValidPaymentCreationRequestModel();  
+            var requestModel = PaymentFixtures.ValidPaymentCreationRequestModel();
 
             _paymentRepositoryMock
                 .Setup(repo => repo.SaveAsync(It.IsAny<Payment>(), CancellationToken.None)).Returns(Task.CompletedTask);
