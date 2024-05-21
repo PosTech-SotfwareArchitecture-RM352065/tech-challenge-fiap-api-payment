@@ -16,10 +16,5 @@ namespace Sanduba.Core.Domain.Orders
         public List<OrderItem> Items { get; set; }
 
         public double TotalAmount => Items.Sum(item => item.Amount);
-
-        public override void ValidateEntity()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

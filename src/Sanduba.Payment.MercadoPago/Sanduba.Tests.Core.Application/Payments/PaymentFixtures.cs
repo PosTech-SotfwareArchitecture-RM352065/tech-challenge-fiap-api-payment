@@ -19,10 +19,12 @@ namespace Sanduba.Tests.Core.Application.Payments
                     {
                         new OrderItem
                         {
+                            Code = 1,
                             Product = new Product(Guid.NewGuid())
                             {
                                 Name = "Product 1",
                                 Description = "Product 1 description",
+                                Category = Category.MainDish,
                                 UnitPrice = 100.00
                             },
                             Currency = Currency.BRL,

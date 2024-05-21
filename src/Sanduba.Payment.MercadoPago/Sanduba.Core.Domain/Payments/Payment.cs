@@ -16,12 +16,6 @@ namespace Sanduba.Core.Domain.Payments
         public ExternalPaymentProvider ExternalPaymentProvider { get; private set; }
         public Order Order { get; init; }
 
-        private List<dynamic> history = new();
-        public IReadOnlyCollection<dynamic> History
-        {
-            get { return history; }
-        }
-
         public static Payment CreatePayment(Guid id, Order order, Method method)
         {
             return new Payment(id)
@@ -53,11 +47,6 @@ namespace Sanduba.Core.Domain.Payments
         public void Payed()
         {
             Status = Status.Payed;
-        }
-
-        public override void ValidateEntity()
-        {
-            throw new NotImplementedException();
         }
     }
 }

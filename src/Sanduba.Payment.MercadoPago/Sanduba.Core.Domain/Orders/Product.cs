@@ -13,11 +13,6 @@ namespace Sanduba.Core.Domain.Orders
 
         public double UnitPrice { get; set; }
 
-        public string Category { get; set; }
-
-        public override void ValidateEntity()
-        {
-            throw new NotImplementedException();
-        }
+        public Category Category { get; set; }
     }
 }
