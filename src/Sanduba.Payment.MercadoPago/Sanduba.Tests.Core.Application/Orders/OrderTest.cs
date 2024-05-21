@@ -19,10 +19,12 @@ namespace Sanduba.Tests.Core.Application.Orders
                 .FirstOrDefault(item => item.Product.Category == Sanduba.Core.Domain.Orders.Category.MainDish);
 
             // Act
-            var result = mainDishFromCompleteOrder.Equals(mainDishFromSimpleOrder);
+            var result1 = mainDishFromCompleteOrder.Equals(mainDishFromSimpleOrder);
+            var result2 = mainDishFromCompleteOrder == mainDishFromSimpleOrder;
 
             // Assert
-            Assert.True(result);
+            Assert.True(result1);
+            Assert.True(result2);
         }
 
         [Fact]
@@ -35,10 +37,30 @@ namespace Sanduba.Tests.Core.Application.Orders
                 .FirstOrDefault(item => item.Product.Category == Sanduba.Core.Domain.Orders.Category.Beverage);
 
             // Act
-            var result = mainDishFromCompleteOrder.Equals(beverageFromCompleteOrder);
+            var result1 = mainDishFromCompleteOrder.Equals(beverageFromCompleteOrder);
+            var result2 = mainDishFromCompleteOrder != beverageFromCompleteOrder;
 
             // Assert
-            Assert.False(result);
+            Assert.False(result1);
+            Assert.True(result2);
+        }
+
+        [Fact]
+        public void Order_Null_ReturnsFalse()
+        {
+            // Arrange
+            var mainDishFromCompleteOrder = OrderFixture.CompleteOrder(Guid.NewGuid()).Items
+                .FirstOrDefault(item => item.Product.Category == Sanduba.Core.Domain.Orders.Category.MainDish);
+            var beverageFromCompleteOrder = OrderFixture.MainDishOrder(Guid.NewGuid(), Guid.NewGuid()).Items
+                .FirstOrDefault(item => item.Product.Category == Sanduba.Core.Domain.Orders.Category.Beverage);
+
+            // Act
+            var result1 = mainDishFromCompleteOrder.Equals(beverageFromCompleteOrder);
+            var result2 = mainDishFromCompleteOrder != beverageFromCompleteOrder;
+
+            // Assert
+            Assert.False(result1);
+            Assert.True(result2);
         }
 
         [Fact]
