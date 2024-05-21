@@ -41,7 +41,7 @@ namespace Sanduba.Cloud.Function.MercadoPago
 
             if (topic == "merchant_order" && long.TryParse(req.Query["id"], out long id))
             {
-                _paymentInteractor.UpdatePayment(new UpdatePaymentRequestModel { Id = id });
+                _paymentInteractor.SyncExternalStatus(new UpdatePaymentRequestModel(id));
 
                 _logger.LogInformation($"Payment not processed payload: {reader.Result}");
             }

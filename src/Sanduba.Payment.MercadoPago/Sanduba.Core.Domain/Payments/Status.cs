@@ -12,6 +12,7 @@ namespace Sanduba.Core.Domain.Payments
         WaitingPayment,
         Payed,
         Expired,
-        Cancelled
+        Cancelled,
+        Error
     }
 }

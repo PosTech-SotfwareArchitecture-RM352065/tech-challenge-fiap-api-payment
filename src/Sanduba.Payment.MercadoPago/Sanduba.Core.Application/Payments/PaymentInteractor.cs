@@ -19,24 +19,31 @@ namespace Sanduba.Core.Application.Payments
 
         public CreatePaymentResponseModel CreatePayment(CreatePaymentRequestModel requestModel)
         {
-            var payment = Payment.CreatePayment(
-                id: Guid.NewGuid(),
-                order: requestModel.Order,
-                method: requestModel.Method
-            );
+            try
+            {
+                var payment = Payment.CreatePayment(
+                    id: Guid.NewGuid(),
+                    order: requestModel.Order,
+                    method: requestModel.Method
+                );
 
-            _paymentRepository.SaveAsync(payment, CancellationToken.None).Wait();
+                _paymentRepository.SaveAsync(payment, CancellationToken.None).Wait();
 
-            var qrData = _externalProvider.CreateQrCodePayment(payment);
-            qrData.Wait();
+                var qrData = _externalProvider.CreateQrCodePayment(payment);
+                qrData.Wait();
 
-            payment.SentToExternalPaymentProvider(qrData.Result.ExternalId, qrData.Result.QrCodeData);
-            _paymentRepository.UpdateAsync(payment, CancellationToken.None).Wait();
+                payment.SentToExternalPaymentProvider(qrData.Result.ExternalId, qrData.Result.QrCodeData);
+                _paymentRepository.UpdateAsync(payment, CancellationToken.None).Wait();
 
-            return new CreatePaymentResponseModel(payment.Id, payment.Status, payment.ExternalId, payment.QrData);
+                return new CreatePaymentResponseModel(payment.Id, payment.Status, payment.ExternalId, payment.QrData);
+            }
+            catch (Exception ex)
+            {
+                return new CreatePaymentResponseModel(Guid.Empty, Status.Error, string.Empty, string.Empty, ex.Message);
+            }
         }
 
-        public void UpdatePayment(UpdatePaymentRequestModel requestModel)
+        public void SyncExternalStatus(UpdatePaymentRequestModel requestModel)
         {
             var payment = _paymentRepository.GetByExternalProviderId(requestModel.Id, CancellationToken.None);
             payment.Wait();
@@ -45,7 +52,7 @@ namespace Sanduba.Core.Application.Payments
 
             var paymentDetail = _externalProvider.GetPaymentData(payment.Result).Result;
 
-            if (paymentDetail != null && paymentDetail.Status is PaymentStatus.WaitingPayment) return;
+            if (paymentDetail is null || paymentDetail.Status is PaymentStatus.WaitingPayment) return;
 
             if (paymentDetail.Status == PaymentStatus.Payed) payment.Result.Payed();
             if (paymentDetail.Status == PaymentStatus.Cancelled) payment.Result.Cancelled();
@@ -54,7 +61,7 @@ namespace Sanduba.Core.Application.Payments
             _paymentNotification.UpdatedPayment(paymentDetail, CancellationToken.None);
         }
 
-        public QueryPaymentByIdResponseModel GetPaymentById(QueryPaymentByIdRequestModel requestModel)
+        public QueryPaymentByIdResponseModel? GetPaymentById(QueryPaymentByIdRequestModel requestModel)
         {
             var query = _paymentRepository.GetByIdAsync(requestModel.Id, CancellationToken.None);
             query.Wait();
