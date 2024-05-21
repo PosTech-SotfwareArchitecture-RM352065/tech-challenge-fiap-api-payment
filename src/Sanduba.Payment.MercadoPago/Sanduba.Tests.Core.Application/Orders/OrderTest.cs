@@ -28,6 +28,19 @@ namespace Sanduba.Tests.Core.Application.Orders
         }
 
         [Fact]
+        public void Order_TotalAmount_ReturnsTotalAmount()
+        {
+            // Arrange
+            var order = OrderFixture.CompleteOrder(Guid.NewGuid());
+
+            // Act
+            var totalAmount = order.TotalAmount;
+
+            // Assert
+            Assert.Equal(34.58, totalAmount);
+        }
+
+        [Fact]
         public void Order_Different_ReturnsFalse()
         {
             // Arrange
