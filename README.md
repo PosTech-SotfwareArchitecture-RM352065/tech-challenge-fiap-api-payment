@@ -1,5 +1,5 @@
 # API Payment
 
-API criada para integraÁ„o com diversas plataformas de pagamento, dentre elas o Mercado pago que ser· a primeira implementada.
+API criada para integra√ß√£o com diversas plataformas de pagamento, dentre elas o Mercado pago que ser√° a primeira implementada como MVP
 
 [Portal do desenvolvedor MercadoPago](https://www.mercadopago.com.br/developers/pt/docs#platform-list)
