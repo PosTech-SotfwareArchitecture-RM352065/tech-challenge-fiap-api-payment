@@ -5,5 +5,5 @@ using System;
 
 namespace Sanduba.Core.Application.Payments.RequestModel
 {
-    public record CreatePaymentRequestModel (Order Order, Method Method, Provider Provider);
+    public record CreatePaymentRequestModel(Order Order, Method Method, Provider Provider);
 }

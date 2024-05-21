@@ -20,7 +20,8 @@ var host = new HostBuilder()
         services.AddMongoDbInfrastructure(context.Configuration);
         services.AddMercadoPagoInfrastructure(context.Configuration);
         services.AddServiceBusInfrastructure(context.Configuration);
-        services.Configure<JsonSerializerOptions>(options => {
+        services.Configure<JsonSerializerOptions>(options =>
+        {
             options.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
             options.PropertyNameCaseInsensitive = true;
             options.WriteIndented = true;

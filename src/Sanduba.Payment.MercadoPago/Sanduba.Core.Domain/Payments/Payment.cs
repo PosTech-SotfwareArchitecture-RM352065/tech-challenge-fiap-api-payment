@@ -17,8 +17,8 @@ namespace Sanduba.Core.Domain.Payments
         public Order Order { get; init; }
 
         private List<dynamic> history = new();
-        public IReadOnlyCollection<dynamic> History 
-        { 
+        public IReadOnlyCollection<dynamic> History
+        {
             get { return history; }
         }
 
@@ -37,7 +37,7 @@ namespace Sanduba.Core.Domain.Payments
             };
         }
 
-        public void SentToExternalPaymentProvider(string externalId, string qrData) 
+        public void SentToExternalPaymentProvider(string externalId, string qrData)
         {
             ExternalId = externalId;
             QrData = qrData;

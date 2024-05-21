@@ -17,7 +17,7 @@ using Payment = Sanduba.Core.Domain.Payments.Payment;
 
 namespace Sanduba.Infrastructure.MercadoPagoAPI.MercadoPago
 {
-    public class MercadoPagoApiGateway(IOptions<MercadoPagoOptions> options) 
+    public class MercadoPagoApiGateway(IOptions<MercadoPagoOptions> options)
         : IPaymentExternalProvider
     {
         MercadoPagoOptions _options = options.Value;
@@ -27,7 +27,7 @@ namespace Sanduba.Infrastructure.MercadoPagoAPI.MercadoPago
         public async Task<QrCodePaymentData> CreateQrCodePayment(Payment payment)
         {
             string requestUrl = $"{_options.BaseUrl}/{_qrRequestUri}/{_options.UserId}/pos/{_options.CashierId}/qrs";
-            
+
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Put, requestUrl);
             request.Headers.Add("Authorization", $"Bearer {_options.AutheticationToken}");
@@ -45,7 +45,7 @@ namespace Sanduba.Infrastructure.MercadoPagoAPI.MercadoPago
 
             var creationResponse = JsonSerializer.Deserialize<CreatePixPaymentResponseModel>(reader.Result, jsonOptions);
 
-            if(creationResponse != null)
+            if (creationResponse != null)
             {
                 var externalId = GetExternalId(payment.Id);
 
@@ -53,7 +53,7 @@ namespace Sanduba.Infrastructure.MercadoPagoAPI.MercadoPago
                 {
                     var paymentData = new QrCodePaymentData(externalId.Result.ToString(), creationResponse.QrData);
                     return paymentData;
-                }   
+                }
             }
 
             return null;
@@ -76,16 +76,16 @@ namespace Sanduba.Infrastructure.MercadoPagoAPI.MercadoPago
                 Description: $"Pedido No {payment.Order.Code} feito {DateTime.Today.ToString("dd/MM/yyyy")}",
                 ExternalReference: payment.Id.ToString(),
                 Items: payment.Order.Items
-                                .Select(i => new OrderItem(                              
+                                .Select(i => new OrderItem(
                                     Category: i.Product.Category.ToString(),
                                     Title: i.Product.Name,
                                     Description: $"Item {i.Code} - {i.Product.Name}",
-                                    UnitPrice:  i.Product.UnitPrice,
+                                    UnitPrice: i.Product.UnitPrice,
                                     Quantity: 1,
                                     UnitMeasure: "unit",
                                     TotalAmount: i.Amount
                                 )).ToArray(),
-                NotificationUrl:  _options.NotificationUrl,
+                NotificationUrl: _options.NotificationUrl,
                 Title: $"Restaudante Sanduba - Pedido No {payment.Order.Code}",
                 TotalAmount: payment.Order.TotalAmount,
                 ExpirationDate: DateTimeOffset.Now.AddMinutes(10).ToString("yyyy-MM-ddTHH:mm:ss.fffzzzz")
@@ -129,7 +129,7 @@ namespace Sanduba.Infrastructure.MercadoPagoAPI.MercadoPago
 
             var paymentDetailResponse = JsonSerializer.Deserialize<GetOrderResponseModel>(reader.Result, jsonOptions);
 
-            if (paymentDetailResponse?.Payments is null 
+            if (paymentDetailResponse?.Payments is null
                 || paymentDetailResponse.Payments.Length < 1)
             {
                 return new PaymentDetailData(PaymentStatus.WaitingPayment, null, null);

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Sanduba.Core.Application.Payments.RequestModel
 {
-    public record QueryPaymentByIdRequestModel (Guid Id);
+    public record QueryPaymentByIdRequestModel(Guid Id);
 }

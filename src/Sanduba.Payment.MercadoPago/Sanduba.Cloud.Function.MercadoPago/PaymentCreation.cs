@@ -56,8 +56,8 @@ namespace Sanduba.Cloud.Function.MercadoPago
             _logger.LogInformation($"Quering by payment id: {req.Query["id"]}");
 
             Guid paymentId;
-            
-            if(Guid.TryParse(req.Query["id"], out paymentId))
+
+            if (Guid.TryParse(req.Query["id"], out paymentId))
             {
                 var queryRequest = new QueryPaymentByIdRequestModel(paymentId);
                 var response = _paymentInteractor.GetPaymentById(queryRequest);

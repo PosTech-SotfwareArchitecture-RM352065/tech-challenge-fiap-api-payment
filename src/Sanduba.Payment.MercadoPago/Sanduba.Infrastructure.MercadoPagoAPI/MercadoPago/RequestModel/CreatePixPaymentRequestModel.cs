@@ -14,7 +14,7 @@ namespace Sanduba.Infrastructure.MercadoPagoAPI.MercadoPago.RequestModel
         string ExpirationDate
     );
 
-    public record OrderItem (
+    public record OrderItem(
         string Category,
         string Title,
         string Description,

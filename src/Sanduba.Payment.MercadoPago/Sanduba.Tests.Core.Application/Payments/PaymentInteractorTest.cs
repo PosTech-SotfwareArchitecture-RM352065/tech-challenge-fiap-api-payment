@@ -66,7 +66,7 @@ namespace Sanduba.Tests.Core.Application
             _externalProviderMock
                 .Setup(provider => provider.CreateQrCodePayment(It.IsAny<Payment>())).ReturnsAsync(new QrCodePaymentData("externalId", "QrCodeData"));
             _paymentRepositoryMock.Setup(repo => repo.UpdateAsync(It.IsAny<Payment>(), CancellationToken.None)).Returns(Task.CompletedTask);
-            
+
             // Act
             var response = _paymentInteractor.CreatePayment(requestModel);
 
@@ -77,80 +77,80 @@ namespace Sanduba.Tests.Core.Application
             Assert.Equal("QrCodeData", response.QrData);
         }
 
-    //     [Fact]
-    //     public void CreatePayment_InvalidRequest_ReturnsErrorResponse()
-    //     {
-    //         // Arrange
-    //         var requestModel = new CreatePaymentRequestModel
-    //         {
-    //             // Set up the request model properties with invalid values
-    //         };
+        //     [Fact]
+        //     public void CreatePayment_InvalidRequest_ReturnsErrorResponse()
+        //     {
+        //         // Arrange
+        //         var requestModel = new CreatePaymentRequestModel
+        //         {
+        //             // Set up the request model properties with invalid values
+        //         };
 
-    //         // Act
-    //         var response = _paymentInteractor.CreatePayment(requestModel);
+        //         // Act
+        //         var response = _paymentInteractor.CreatePayment(requestModel);
 
-    //         // Assert
-    //         Assert.NotNull(response);
-    //         Assert.Equal(PaymentStatus.Error, response.Status);
-    //         // Add more assertions as needed
-    //     }
+        //         // Assert
+        //         Assert.NotNull(response);
+        //         Assert.Equal(PaymentStatus.Error, response.Status);
+        //         // Add more assertions as needed
+        //     }
 
-    //     [Fact]
-    //     public void UpdatePayment_ValidRequest_UpdatesPayment()
-    //     {
-    //         // Arrange
-    //         var requestModel = new UpdatePaymentRequestModel
-    //         {
-    //             // Set up the request model properties
-    //         };
+        //     [Fact]
+        //     public void UpdatePayment_ValidRequest_UpdatesPayment()
+        //     {
+        //         // Arrange
+        //         var requestModel = new UpdatePaymentRequestModel
+        //         {
+        //             // Set up the request model properties
+        //         };
 
-    //         // Act
-    //         _paymentInteractor.UpdatePayment(requestModel);
+        //         // Act
+        //         _paymentInteractor.UpdatePayment(requestModel);
 
-    //         // Assert
-    //         _paymentRepositoryMock.Verify(r => r.UpdatePayment(It.IsAny<Payment>()), Times.Once);
-    //         // Add more assertions as needed
-    //     }
+        //         // Assert
+        //         _paymentRepositoryMock.Verify(r => r.UpdatePayment(It.IsAny<Payment>()), Times.Once);
+        //         // Add more assertions as needed
+        //     }
 
-    //     [Fact]
-    //     public void GetPaymentById_ExistingId_ReturnsPayment()
-    //     {
-    //         // Arrange
-    //         var requestModel = new QueryPaymentByIdRequestModel
-    //         {
-    //             // Set up the request model properties
-    //         };
-    //         var payment = new Payment
-    //         {
-    //             // Set up the payment object
-    //         };
-    //         _paymentRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>())).Returns(payment);
+        //     [Fact]
+        //     public void GetPaymentById_ExistingId_ReturnsPayment()
+        //     {
+        //         // Arrange
+        //         var requestModel = new QueryPaymentByIdRequestModel
+        //         {
+        //             // Set up the request model properties
+        //         };
+        //         var payment = new Payment
+        //         {
+        //             // Set up the payment object
+        //         };
+        //         _paymentRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>())).Returns(payment);
 
-    //         // Act
-    //         var response = _paymentInteractor.GetPaymentById(requestModel);
+        //         // Act
+        //         var response = _paymentInteractor.GetPaymentById(requestModel);
 
-    //         // Assert
-    //         Assert.NotNull(response);
-    //         Assert.Equal(payment.Id, response.Payment.Id);
-    //         // Add more assertions as needed
-    //     }
+        //         // Assert
+        //         Assert.NotNull(response);
+        //         Assert.Equal(payment.Id, response.Payment.Id);
+        //         // Add more assertions as needed
+        //     }
 
-    //     [Fact]
-    //     public void GetPaymentById_NonExistingId_ReturnsNull()
-    //     {
-    //         // Arrange
-    //         var requestModel = new QueryPaymentByIdRequestModel
-    //         {
-    //             // Set up the request model properties with a non-existing ID
-    //         };
-    //         _paymentRepositoryMock.Setup(r => r.GetPaymentById(It.IsAny<Guid>())).Returns((Payment)null);
+        //     [Fact]
+        //     public void GetPaymentById_NonExistingId_ReturnsNull()
+        //     {
+        //         // Arrange
+        //         var requestModel = new QueryPaymentByIdRequestModel
+        //         {
+        //             // Set up the request model properties with a non-existing ID
+        //         };
+        //         _paymentRepositoryMock.Setup(r => r.GetPaymentById(It.IsAny<Guid>())).Returns((Payment)null);
 
-    //         // Act
-    //         var response = _paymentInteractor.GetPaymentById(requestModel);
+        //         // Act
+        //         var response = _paymentInteractor.GetPaymentById(requestModel);
 
-    //         // Assert
-    //         Assert.Null(response);
-    //         // Add more assertions as needed
-    //     }
+        //         // Assert
+        //         Assert.Null(response);
+        //         // Add more assertions as needed
+        //     }
     }
 }

@@ -27,7 +27,7 @@ namespace Sanduba.Core.Application.Payments
 
             _paymentRepository.SaveAsync(payment, CancellationToken.None).Wait();
 
-            var qrData = _externalProvider.CreateQrCodePayment( payment );
+            var qrData = _externalProvider.CreateQrCodePayment(payment);
             qrData.Wait();
 
             payment.SentToExternalPaymentProvider(qrData.Result.ExternalId, qrData.Result.QrCodeData);
@@ -59,7 +59,7 @@ namespace Sanduba.Core.Application.Payments
             var query = _paymentRepository.GetByIdAsync(requestModel.Id, CancellationToken.None);
             query.Wait();
 
-            if(query.Result == null) return null;
+            if (query.Result == null) return null;
 
             return new QueryPaymentByIdResponseModel(
                         Id: query.Result.Id,

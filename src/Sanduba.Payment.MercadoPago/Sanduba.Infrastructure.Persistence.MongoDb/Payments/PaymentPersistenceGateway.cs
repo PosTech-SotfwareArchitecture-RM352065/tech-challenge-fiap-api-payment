@@ -64,7 +64,7 @@ namespace Sanduba.Infrastructure.Persistence.MongoDb.Payments
             return _dbContext.Payments.ReplaceOneAsync(filter, entity, new ReplaceOptions { IsUpsert = true }, cancellationToken);
         }
 
-        public async Task<Payment> GetByExternalProviderId(long id,  CancellationToken cancellationToken)
+        public async Task<Payment> GetByExternalProviderId(long id, CancellationToken cancellationToken)
         {
             var results = await _dbContext.Payments.FindAsync(payment => payment.ExternalId == id.ToString());
             return results.FirstOrDefault();

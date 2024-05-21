@@ -4,11 +4,11 @@ using System;
 
 namespace Sanduba.Core.Application.Payments.ResponseModel
 {
-    public record QueryPaymentByIdResponseModel (
+    public record QueryPaymentByIdResponseModel(
         Guid Id,
-        Status Status, 
-        Order Order, 
-        Method Method, 
+        Status Status,
+        Order Order,
+        Method Method,
         Provider Provider,
         string ExternalId,
         string QrData
