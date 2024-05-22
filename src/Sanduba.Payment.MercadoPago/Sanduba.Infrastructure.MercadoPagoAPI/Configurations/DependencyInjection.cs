@@ -3,9 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Sanduba.Core.Application.Payments;
 using Sanduba.Infrastructure.MercadoPagoAPI.Configurations.Options;
 using Sanduba.Infrastructure.MercadoPagoAPI.MercadoPago;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Sanduba.Infrastructure.MercadoPagoAPI.Configurations
 {
+    [ExcludeFromCodeCoverage]
     public static class DependencyInjection
     {
         /// <summary>

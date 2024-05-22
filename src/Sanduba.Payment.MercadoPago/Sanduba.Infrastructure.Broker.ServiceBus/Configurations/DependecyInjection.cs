@@ -6,9 +6,11 @@ using Sanduba.Core.Application.Payments.ResponseModel.ExternalProvider;
 using Sanduba.Infrastructure.Broker.ServiceBus.Configurations.Options;
 using Sanduba.Infrastructure.Broker.ServiceBus.Payments;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
 {
+    [ExcludeFromCodeCoverage]
     public static class DependencyInjection
     {
         /// <summary>

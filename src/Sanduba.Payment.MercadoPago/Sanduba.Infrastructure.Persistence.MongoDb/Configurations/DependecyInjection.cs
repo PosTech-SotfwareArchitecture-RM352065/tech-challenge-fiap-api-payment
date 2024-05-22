@@ -3,9 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Sanduba.Core.Application.Payments;
 using Sanduba.Infrastructure.Persistence.MongoDb.Configurations.Options;
 using Sanduba.Infrastructure.Persistence.MongoDb.Payments;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Sanduba.Infrastructure.Persistence.MongoDb.Configurations
 {
+    [ExcludeFromCodeCoverage]
     public static class DependencyInjection
     {
         /// <summary>

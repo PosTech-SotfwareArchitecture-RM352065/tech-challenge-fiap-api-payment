@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Sanduba.Infrastructure.MercadoPagoAPI.Configurations.Options
 {
+    [ExcludeFromCodeCoverage]
     public class MercadoPagoConfigureOptions(IConfiguration configuration) : IConfigureOptions<MercadoPagoOptions>
     {
         private readonly string _baseUrl = "MercadoPagoSettings:BaseUrl";

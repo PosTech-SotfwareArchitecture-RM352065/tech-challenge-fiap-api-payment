@@ -1,9 +1,11 @@
 ﻿using Sanduba.Core.Domain.Commons.Exceptions;
 using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Sanduba.Core.Domain.Commons.Assertions
 {
+    [ExcludeFromCodeCoverage]
     public static class AssertionConcern
     {
         public static void AssertArgumentLength(string stringValue, int maximum, string message)

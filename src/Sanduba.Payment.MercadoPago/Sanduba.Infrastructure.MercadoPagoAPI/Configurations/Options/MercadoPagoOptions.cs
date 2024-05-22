@@ -1,5 +1,8 @@
-﻿namespace Sanduba.Infrastructure.MercadoPagoAPI.Configurations.Options
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sanduba.Infrastructure.MercadoPagoAPI.Configurations.Options
 {
+    [ExcludeFromCodeCoverage]
     public class MercadoPagoOptions
     {
         public string BaseUrl { get; set; } = string.Empty;
