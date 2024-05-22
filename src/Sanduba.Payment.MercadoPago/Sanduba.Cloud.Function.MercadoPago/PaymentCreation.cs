@@ -46,9 +46,9 @@ namespace Sanduba.Cloud.Function.MercadoPago
                     return new BadRequestObjectResult("Invalid request sent!");
 
                 var response = _paymentInteractor.CreatePayment(creationRequest);
-                
+
                 if (response.Status == Status.Error)
-                    return new BadRequestObjectResult(response); 
+                    return new BadRequestObjectResult(response);
                 else
                     return new OkObjectResult(response);
             }
