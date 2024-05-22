@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Sanduba.Tests.Core.Application.Orders
+namespace Sanduba.Test.Unit.Core.Orders
 {
     public class OrderTest
     {

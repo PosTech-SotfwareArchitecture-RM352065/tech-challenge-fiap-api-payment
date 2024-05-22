@@ -10,6 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Cloud.Function\Requests\InvalidPaymentCreationRequest.json" />
+    <None Remove="Cloud.Function\Requests\ValidPaymentCreationRequest.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Cloud.Function\Requests\InvalidPaymentCreationRequest.json" />
+    <EmbeddedResource Include="Cloud.Function\Requests\ValidPaymentCreationRequest.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
@@ -18,8 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sanduba.Cloud.Function.MercadoPago\Sanduba.Cloud.Function.MercadoPago.csproj" />
     <ProjectReference Include="..\Sanduba.Core.Application\Sanduba.Core.Application.csproj" />
-    <ProjectReference Include="..\Sanduba.Core.Domain\Sanduba.Core.Domain.csproj" />
   </ItemGroup>
 
 </Project>

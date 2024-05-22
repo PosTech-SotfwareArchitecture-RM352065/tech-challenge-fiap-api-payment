@@ -4,6 +4,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Sanduba.Core.Application.Payments;
 using Sanduba.Core.Application.Payments.RequestModel;
+using Sanduba.Core.Domain.Payments;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -37,17 +38,24 @@ namespace Sanduba.Cloud.Function.MercadoPago
             var reader = new StreamReader(req.Body).ReadToEndAsync();
             reader.Wait();
 
-            var creationRequest = JsonSerializer.Deserialize<CreatePaymentRequestModel>(reader.Result, jsonOptions);
-
-            if (creationRequest == null)
+            try
             {
-                return new BadRequestObjectResult("Invalid request sent!");
+                var creationRequest = JsonSerializer.Deserialize<CreatePaymentRequestModel>(reader.Result, jsonOptions);
+
+                if (creationRequest == null)
+                    return new BadRequestObjectResult("Invalid request sent!");
+
+                var response = _paymentInteractor.CreatePayment(creationRequest);
+                
+                if (response.Status == Status.Error)
+                    return new BadRequestObjectResult(response); 
+                else
+                    return new OkObjectResult(response);
             }
-
-
-            var response = _paymentInteractor.CreatePayment(creationRequest);
-
-            return new OkObjectResult(response);
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
         }
 
         [Function("PaymentQuery")]

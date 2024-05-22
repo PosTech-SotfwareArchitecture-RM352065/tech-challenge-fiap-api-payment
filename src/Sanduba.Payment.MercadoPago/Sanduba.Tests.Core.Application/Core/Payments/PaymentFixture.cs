@@ -3,9 +3,9 @@ using Sanduba.Core.Domain.Orders;
 using Sanduba.Core.Domain.Payments;
 using System;
 using System.Collections.Generic;
-namespace Sanduba.Tests.Core.Application.Payments
+namespace Sanduba.Test.Unit.Core.Payments
 {
-    internal static class PaymentFixtures
+    internal static class PaymentFixture
     {
         internal static Payment PaymentCreated(Guid paymentId)
         {

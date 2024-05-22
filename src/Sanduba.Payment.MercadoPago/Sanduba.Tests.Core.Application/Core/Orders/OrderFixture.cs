@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sanduba.Tests.Core.Application.Orders
+namespace Sanduba.Test.Unit.Core.Orders
 {
     internal static class OrderFixture
     {

@@ -1,0 +1,23 @@
+{
+  "Order": {
+    "Id": "EF0852B0-B343-4530-A379-3E38C47C1435",
+    "Code": "01",
+    "ClientId": "A76D8B2B-E868-4AFA-B023-62D889A34A5C",
+    "Items": [
+      {
+        "Code": 1,
+        "Product": {
+          "Id": "2C77615B-504E-45A5-ACC1-87F1AFB2FEBC",
+          "Name": "Lanche 1",
+          "Description": "Nosso mega lanche",
+          "UnitPrice": 1.90,
+          "Category": "MainDish"
+        },
+        "Currency": "BRL",
+        "Amount": 1.90
+      }
+    ]
+  },
+  "Method": "PIX",
+  "Provider": "MercadoPago"
+}

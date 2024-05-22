@@ -18,7 +18,7 @@ namespace Sanduba.Core.Domain.Payments
 
         public static Payment CreatePayment(Guid id, Order order, Method method)
         {
-            return new Payment(id)
+            var payment = new Payment(id)
             {
                 Order = order,
                 Status = Status.Created,
@@ -29,6 +29,9 @@ namespace Sanduba.Core.Domain.Payments
                 },
                 Method = method
             };
+
+            payment.ValidateEntity();
+            return payment;
         }
 
         public void SentToExternalPaymentProvider(string externalId, string qrData)
@@ -47,6 +50,11 @@ namespace Sanduba.Core.Domain.Payments
         public void Payed()
         {
             Status = Status.Payed;
+        }
+
+        public override void ValidateEntity()
+        {
+            Order.ValidateEntity();
         }
     }
 }

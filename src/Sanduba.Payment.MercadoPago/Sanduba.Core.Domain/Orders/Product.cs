@@ -1,4 +1,5 @@
-﻿using Sanduba.Core.Domain.Commons.Types;
+﻿using Sanduba.Core.Domain.Commons.Assertions;
+using Sanduba.Core.Domain.Commons.Types;
 using System;
 
 namespace Sanduba.Core.Domain.Orders
@@ -14,5 +15,12 @@ namespace Sanduba.Core.Domain.Orders
         public double UnitPrice { get; set; }
 
         public Category Category { get; set; }
+
+        public override void ValidateEntity()
+        {
+            AssertionConcern.AssertArgumentNotEmpty(Name, "Nome do produto não pode ser vazio!");
+            AssertionConcern.AssertArgumentNotEmpty(Description, "Descrição do produto não pode ser vazio!");
+            AssertionConcern.AssertArgumentNotNegative(UnitPrice, "Valor unitário não pode ser negativo!");
+        }
     }
 }

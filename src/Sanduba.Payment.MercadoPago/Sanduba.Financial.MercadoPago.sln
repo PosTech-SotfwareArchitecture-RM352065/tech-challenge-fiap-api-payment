@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -10,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Infrastructure.Pers
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{604FADF9-C9E3-4EE1-B55D-21E70C33AFE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Tests.Core.Application", "Sanduba.Tests.Core.Application\Sanduba.Tests.Core.Application.csproj", "{403B53CF-916B-4D84-85EB-CD9B88ACF7FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Test.Unit", "Sanduba.Tests.Core.Application\Sanduba.Test.Unit.csproj", "{403B53CF-916B-4D84-85EB-CD9B88ACF7FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Cloud.Function.MercadoPago", "Sanduba.Cloud.Function.MercadoPago\Sanduba.Cloud.Function.MercadoPago.csproj", "{D6AE39D1-B3F3-417E-A490-6CAD65749BED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Infrastructure.MercadoPagoAPI", "Sanduba.Infrastructure.MercadoPagoAPI\Sanduba.Infrastructure.MercadoPagoAPI.csproj", "{D24A241D-36B7-454B-AFEF-76ED39875178}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sanduba.Infrastructure.Broker.ServiceBus", "Sanduba.Infrastructure.Broker.ServiceBus\Sanduba.Infrastructure.Broker.ServiceBus.csproj", "{70A0F6DA-4A07-449D-BE32-60D8EEAF9872}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Infrastructure.Broker.ServiceBus", "Sanduba.Infrastructure.Broker.ServiceBus\Sanduba.Infrastructure.Broker.ServiceBus.csproj", "{70A0F6DA-4A07-449D-BE32-60D8EEAF9872}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
