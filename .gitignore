@@ -264,3 +264,6 @@ __pycache__/
 *.pyc
 coverage.xml
 output.coverage
+robot/log.html
+robot/output.xml
+robot/report.html
