@@ -3,9 +3,6 @@ using Moq;
 using Sanduba.Cloud.Function.MercadoPago;
 using Sanduba.Core.Application.Payments;
 using System;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +39,7 @@ namespace Sanduba.Test.Unit.Cloud.Function
             _paymentRepositoryMock
                 .Setup(repo => repo.SaveAsync(It.IsAny<Payment>(), CancellationToken.None)).Returns(Task.CompletedTask);
             _paymentExternalProviderMock
-                .Setup(provider => provider.CreateQrCodePayment(It.IsAny<Payment>())).ReturnsAsync(new QrCodePaymentData("ExternalId", "QrCodeData"));
+                .Setup(provider => provider.CreateQrCodePayment(It.IsAny<Payment>())).ReturnsAsync(PaymentCreationFixture.ValidPaymentCreationResponse());
             _paymentRepositoryMock
                 .Setup(repo => repo.UpdateAsync(It.IsAny<Payment>(), CancellationToken.None)).Returns(Task.CompletedTask);
 
@@ -67,5 +64,64 @@ namespace Sanduba.Test.Unit.Cloud.Function
             Assert.IsType<BadRequestObjectResult>(result);
             Assert.IsType<CreatePaymentResponseModel>((result as BadRequestObjectResult).Value);
         }
+
+        [Fact]
+        public void GivenEmptyOrder_WhenCreatePayment_ThenReturnError()
+        {
+            // Arrange
+            var request = PaymentCreationFixture.EmptyHttpRequest();
+
+            // Act
+            var result = _paymentCreation.Create(request);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public void GivenBadFormatOrder_WhenCreatePayment_ThenReturnError()
+        {
+            // Arrange
+            var request = PaymentCreationFixture.BadFormatOrderHttpRequest();
+
+            // Act
+            var result = _paymentCreation.Create(request);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public void GivenAnyOrder_WhenUnhandledExceptionOccurs_ThenReturnError()
+        {
+            // Arrange
+            var request = PaymentCreationFixture.ValidPaymentCreationHttpRequest();
+            _paymentRepositoryMock
+                .Setup(repo => repo.SaveAsync(It.IsAny<Payment>(), CancellationToken.None)).Throws(new Exception("Unhandeled exception"));
+
+
+            // Act
+            var result = _paymentCreation.Create(request);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        //[Fact]
+        //public void GivenValidId_WhenQueryPayment_ThenReturnOkObjectResult()
+        //{
+        //    // Arrange
+        //    var request = PaymentCreationFixture.ValidPaymentQueryHttpRequest();
+        //    _paymentRepositoryMock
+        //        .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None)).ReturnsAsync(PaymentCreationFixture.ValidPaymentQueryResponse());
+
+        //    // Act
+        //    var result = _paymentCreation.Get(request);
+
+        //    // Assert
+        //    Assert.IsType<OkObjectResult>(result);
+        //    Assert.IsType<QueryPaymentByIdResponseModel>((result as OkObjectResult).Value);
+        //    _paymentRepositoryMock.Verify(repo => repo.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Once);
+        //}
     }
 }

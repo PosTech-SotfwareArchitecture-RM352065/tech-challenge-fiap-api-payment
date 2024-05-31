@@ -1,8 +1,10 @@
 ﻿using Amazon.Auth.AccessControlPolicy;
 using Microsoft.AspNetCore.Http;
 using Sanduba.Core.Application.Payments.ResponseModel;
+using Sanduba.Core.Application.Payments.ResponseModel.ExternalProvider;
 using Sanduba.Core.Domain.Payments;
 using Sanduba.Test.Unit.Commons;
+using Sanduba.Test.Unit.Core.Orders;
 using System;
 using System.IO;
 using System.Text;
@@ -67,5 +69,64 @@ namespace Sanduba.Test.Unit.Cloud.Function
             ContentType = "application/json",
             Body = new MemoryStream(Encoding.UTF8.GetBytes(FileResourceHelper.GetResource(@"Sanduba.Test.Unit.Cloud.Function.Requests.InvalidPaymentCreationRequest.json")))
         };
+
+        internal static HttpRequestTest EmptyHttpRequest() => new HttpRequestTest()
+        {
+            Method = "POST",
+            Scheme = "https",
+            IsHttps = true,
+            Host = new HostString("localhost"),
+            PathBase = "/",
+            Path = "/PaymentCreation",
+            ContentType = "application/json"
+        };
+
+        internal static HttpRequestTest BadFormatOrderHttpRequest() => new HttpRequestTest()
+        {
+            Method = "POST",
+            Scheme = "https",
+            IsHttps = true,
+            Host = new HostString("localhost"),
+            PathBase = "/",
+            Path = "/PaymentCreation",
+            ContentType = "application/json",
+            Body = new MemoryStream(Encoding.UTF8.GetBytes(""))
+        };
+
+        internal static HttpRequestTest ValidPaymentQueryHttpRequest() => new HttpRequestTest()
+        {
+            Method = "GET",
+            Scheme = "https",
+            IsHttps = true,
+            Host = new HostString("localhost"),
+            PathBase = "/",
+            Path = $"/PaymentQuery",
+            Query = (IQueryCollection)System.Web.HttpUtility.ParseQueryString($"id={Guid.NewGuid()}"),
+            ContentType = "application/json"
+        };
+
+        internal static HttpRequestTest InvalidPaymentQueryHttpRequest() => new HttpRequestTest()
+        {
+            Method = "GET",
+            Scheme = "https",
+            IsHttps = true,
+            Host = new HostString("localhost"),
+            PathBase = "/",
+            Path = "/PaymentQuery",
+            Query = (IQueryCollection)System.Web.HttpUtility.ParseQueryString($"id={Guid.Empty}"),
+            ContentType = "application/json"
+        };
+
+        internal static QrCodePaymentData ValidPaymentCreationResponse() => new QrCodePaymentData("ExternalId", "QrCodeData");
+
+        internal static Payment ValidPaymentQueryResponse()
+        {
+            return new Payment(Guid.NewGuid())
+            {
+                Order = OrderFixture.CompleteOrder(Guid.NewGuid()),
+                Method = Method.PIX,
+                Provider = Provider.MercadoPago,
+            };
+        }
     }
 }
