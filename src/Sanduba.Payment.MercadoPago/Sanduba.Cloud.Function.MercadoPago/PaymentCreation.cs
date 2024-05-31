@@ -35,10 +35,10 @@ namespace Sanduba.Cloud.Function.MercadoPago
         public IActionResult Create([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
-            
-            if(req.Body == null)
+
+            if (req.Body == null)
                 return new BadRequestObjectResult("Invalid request sent!");
-            
+
             var reader = new StreamReader(req.Body).ReadToEndAsync().Result;
 
             try
