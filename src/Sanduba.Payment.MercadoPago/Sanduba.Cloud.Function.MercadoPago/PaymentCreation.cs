@@ -45,9 +45,6 @@ namespace Sanduba.Cloud.Function.MercadoPago
             {
                 var creationRequest = JsonSerializer.Deserialize<CreatePaymentRequestModel>(reader, jsonOptions);
 
-                if (creationRequest == null)
-                    return new BadRequestObjectResult("Invalid request sent!");
-
                 var response = _paymentInteractor.CreatePayment(creationRequest);
 
                 if (response.Status == Status.Error)
