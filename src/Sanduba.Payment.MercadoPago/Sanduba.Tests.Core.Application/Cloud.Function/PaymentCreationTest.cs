@@ -62,7 +62,7 @@ namespace Sanduba.Test.Unit.Cloud.Function
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
-            Assert.IsType<string>((result as BadRequestObjectResult).Value);
+            Assert.IsType<CreatePaymentResponseModel>((result as BadRequestObjectResult).Value);
         }
 
         [Fact]
