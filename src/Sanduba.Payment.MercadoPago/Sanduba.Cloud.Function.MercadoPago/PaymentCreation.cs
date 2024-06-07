@@ -34,7 +34,7 @@ namespace Sanduba.Cloud.Function.MercadoPago
         [Function("PaymentCreation")]
         public IActionResult Create([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
+            _logger.LogInformation("Creating new payment!");
 
             if (req.Body == null)
                 return new BadRequestObjectResult("Invalid request sent!");
@@ -64,11 +64,11 @@ namespace Sanduba.Cloud.Function.MercadoPago
         [Function("PaymentQuery")]
         public IActionResult Get([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
-            _logger.LogInformation($"Quering by payment id: {req.Query["id"]}");
+            _logger.LogInformation("Query new payment!");
 
             Guid paymentId;
 
-            if (Guid.TryParse(req.Query["id"], out paymentId))
+            if (req.Query is not null &&  Guid.TryParse(req.Query["id"], out paymentId))
             {
                 var queryRequest = new QueryPaymentByIdRequestModel(paymentId);
                 var response = _paymentInteractor.GetPaymentById(queryRequest);

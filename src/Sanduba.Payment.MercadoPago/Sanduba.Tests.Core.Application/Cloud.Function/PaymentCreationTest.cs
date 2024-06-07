@@ -107,21 +107,53 @@ namespace Sanduba.Test.Unit.Cloud.Function
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
-        //[Fact]
-        //public void GivenValidId_WhenQueryPayment_ThenReturnOkObjectResult()
-        //{
-        //    // Arrange
-        //    var request = PaymentCreationFixture.ValidPaymentQueryHttpRequest();
-        //    _paymentRepositoryMock
-        //        .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None)).ReturnsAsync(PaymentCreationFixture.ValidPaymentQueryResponse());
+        [Fact]
+        public void GivenValidId_WhenQueryPayment_ThenReturnOkObjectResult()
+        {
+            // Arrange
+            var request = PaymentCreationFixture.ValidPaymentQueryHttpRequest();
+            _paymentRepositoryMock
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None)).ReturnsAsync(PaymentCreationFixture.ValidPaymentQueryResponse());
 
-        //    // Act
-        //    var result = _paymentCreation.Get(request);
+            // Act
+            var result = _paymentCreation.Get(request);
 
-        //    // Assert
-        //    Assert.IsType<OkObjectResult>(result);
-        //    Assert.IsType<QueryPaymentByIdResponseModel>((result as OkObjectResult).Value);
-        //    _paymentRepositoryMock.Verify(repo => repo.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Once);
-        //}
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<QueryPaymentByIdResponseModel>((result as OkObjectResult).Value);
+            _paymentRepositoryMock.Verify(repo => repo.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public void GivenInValidId_WhenQueryPayment_ThenReturnBadRequestObjectResult()
+        {
+            // Arrange
+            var request = PaymentCreationFixture.InvalidPaymentQueryHttpRequest();
+            _paymentRepositoryMock
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None)).ReturnsAsync(PaymentCreationFixture.ValidPaymentQueryResponse());
+
+            // Act
+            var result = _paymentCreation.Get(request);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            _paymentRepositoryMock.Verify(repo => repo.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        [Fact]
+        public void GivenEmptyId_WhenQueryPayment_ThenReturnBadRequestObjectResult()
+        {
+            // Arrange
+            var request = PaymentCreationFixture.EmptyPaymentQueryHttpRequest();
+            _paymentRepositoryMock
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None)).ReturnsAsync(PaymentCreationFixture.ValidPaymentQueryResponse());
+
+            // Act
+            var result = _paymentCreation.Get(request);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            _paymentRepositoryMock.Verify(repo => repo.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Never);
+        }
     }
 }

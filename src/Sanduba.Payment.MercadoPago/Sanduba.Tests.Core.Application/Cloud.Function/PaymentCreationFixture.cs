@@ -6,6 +6,7 @@ using Sanduba.Core.Domain.Payments;
 using Sanduba.Test.Unit.Commons;
 using Sanduba.Test.Unit.Core.Orders;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -101,7 +102,11 @@ namespace Sanduba.Test.Unit.Cloud.Function
             Host = new HostString("localhost"),
             PathBase = "/",
             Path = $"/PaymentQuery",
-            Query = (IQueryCollection)System.Web.HttpUtility.ParseQueryString($"id={Guid.NewGuid()}"),
+            Query = new QueryCollection(
+                new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>()
+                {
+                    { "id", new Microsoft.Extensions.Primitives.StringValues(new[] { Guid.NewGuid().ToString() }) }
+                }), 
             ContentType = "application/json"
         };
 
@@ -113,7 +118,22 @@ namespace Sanduba.Test.Unit.Cloud.Function
             Host = new HostString("localhost"),
             PathBase = "/",
             Path = "/PaymentQuery",
-            Query = (IQueryCollection)System.Web.HttpUtility.ParseQueryString($"id={Guid.Empty}"),
+            Query = new QueryCollection(
+                new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>()
+                {
+                    { "id", new Microsoft.Extensions.Primitives.StringValues(new[] { "invalid id" }) }
+                }),
+            ContentType = "application/json"
+        };
+
+        internal static HttpRequestTest EmptyPaymentQueryHttpRequest() => new HttpRequestTest()
+        {
+            Method = "GET",
+            Scheme = "https",
+            IsHttps = true,
+            Host = new HostString("localhost"),
+            PathBase = "/",
+            Path = "/PaymentQuery",
             ContentType = "application/json"
         };
 
