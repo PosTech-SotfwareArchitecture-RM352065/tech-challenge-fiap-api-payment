@@ -62,7 +62,7 @@ namespace Sanduba.Test.Unit.Cloud.Function
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
-            Assert.IsType<CreatePaymentResponseModel>((result as BadRequestObjectResult).Value);
+            Assert.IsType<string>((result as BadRequestObjectResult).Value);
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace Sanduba.Test.Unit.Cloud.Function
         }
 
         [Fact]
-        public void GivenInValidId_WhenQueryPayment_ThenReturnBadRequestObjectResult()
+        public void GivenInvalidId_WhenQueryPayment_ThenReturnBadRequestObjectResult()
         {
             // Arrange
             var request = PaymentCreationFixture.InvalidPaymentQueryHttpRequest();
@@ -154,6 +154,22 @@ namespace Sanduba.Test.Unit.Cloud.Function
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
             _paymentRepositoryMock.Verify(repo => repo.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        [Fact]
+        public void GivenNonExistingId_WhenQueryPayment_ThenReturnNotFoundResult()
+        {
+            // Arrange
+            var request = PaymentCreationFixture.ValidPaymentQueryHttpRequest();
+            _paymentRepositoryMock
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None));
+
+            // Act
+            var result = _paymentCreation.Get(request);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+            _paymentRepositoryMock.Verify(repo => repo.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }
