@@ -68,7 +68,7 @@ namespace Sanduba.Cloud.Function.MercadoPago
 
             Guid paymentId;
 
-            if (req.Query is not null &&  Guid.TryParse(req.Query["id"], out paymentId))
+            if (req.Query is not null && Guid.TryParse(req.Query["id"], out paymentId))
             {
                 var queryRequest = new QueryPaymentByIdRequestModel(paymentId);
                 var response = _paymentInteractor.GetPaymentById(queryRequest);
