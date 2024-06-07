@@ -106,7 +106,7 @@ namespace Sanduba.Test.Unit.Cloud.Function
                 new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>()
                 {
                     { "id", new Microsoft.Extensions.Primitives.StringValues(new[] { Guid.NewGuid().ToString() }) }
-                }), 
+                }),
             ContentType = "application/json"
         };
 
