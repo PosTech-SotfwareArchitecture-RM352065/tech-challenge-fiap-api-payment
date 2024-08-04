@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 
 
 namespace Sanduba.Infrastructure.Persistence.MongoDb.Configurations.Options
 {
+    [ExcludeFromCodeCoverage]
     public class MongoConfigureOptions(IConfiguration configuration) : IConfigureOptions<MongoOptions>
     {
         private readonly string _connectionStringKey = "MongoSettings:ConnectionString";

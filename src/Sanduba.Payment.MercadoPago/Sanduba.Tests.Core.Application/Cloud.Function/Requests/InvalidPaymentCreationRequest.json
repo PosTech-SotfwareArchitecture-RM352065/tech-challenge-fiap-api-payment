@@ -1,10 +1,3 @@
 {
-  "Order": {
-    "Id": "EF0852B0-B343-4530-A379-3E38C47C1435",
-    "Code": "01",
-    "ClientId": "A76D8B2B-E868-4AFA-B023-62D889A34A5C",
-    "Items": []
-  },
-  "Method": "PIX",
   "Provider": "MercadoPago"
 }
