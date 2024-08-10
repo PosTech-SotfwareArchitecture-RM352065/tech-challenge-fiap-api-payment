@@ -40,7 +40,8 @@ jobs:
     - name: Extract ZIP
       run: |
         sudo apt-get install unzip
-        unzip artifact/zap_scan.zip -d extracted
+        ls -a
+        unzip artifact/zap_scan -d extracted
 
     - name: Move and Rename ZAP Report
       run: |
