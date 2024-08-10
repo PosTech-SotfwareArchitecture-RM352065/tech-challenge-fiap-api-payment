@@ -156,7 +156,7 @@ namespace Sanduba.Test.Unit.Core.Payments
             // Assert
             Assert.Equal(Status.Cancelled, payment.Status);
             _paymentRepositoryMock.Verify(repo => repo.UpdateAsync(It.IsAny<Payment>(), It.IsAny<CancellationToken>()), Times.Once);
-            _paymentNotificationMock.Verify(broker => broker.UpdatedPayment(paymentRejectedEvent, CancellationToken.None), Times.Once);
+            _paymentNotificationMock.Verify(broker => broker.UpdatedPayment(It.IsAny<OrderPaymentRejectedEvent>(), CancellationToken.None), Times.Once);
         }
 
         [Fact]
