@@ -35,13 +35,12 @@ jobs:
     - name: Download ZAP Report Artifact
       uses: actions/download-artifact@v4
       with:
-        name: zap_scan.zip
         path: ./artifact
 
     - name: Extract ZIP
       run: |
         sudo apt-get install unzip
-        unzip zap_scan.zip -d extracted
+        unzip artifact/zap_scan.zip -d extracted
 
     - name: Move and Rename ZAP Report
       run: |
