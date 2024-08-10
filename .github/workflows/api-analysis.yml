@@ -2,7 +2,7 @@ name: "API Test & Analysis"
 
 on: 
   workflow_run:
-    workflows: ["Code Test & Analysis"]
+    workflows: ["Push to DockerHub & Azure"]
     types:
       - completed
   workflow_dispatch:
