@@ -94,18 +94,13 @@ jobs:
 
       - name: Move and Rename ZAP Report
         run: |
-          ls -a
           mv report_md.md owasp-zap/current-report.md
-          ls -a
-          cd owasp-zap
-          ls -a
-
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add owasp-zap/current.md
+          git add owasp-zap/current-report.md
           git commit -m "Add latest owasp report"
           git push
         env:
