@@ -35,7 +35,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: zap-report-artifact
-        path: ./zap_scan.zip
+        path: ./artifacts
 
     - name: Extract ZIP
       run: |
