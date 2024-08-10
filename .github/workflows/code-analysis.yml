@@ -3,8 +3,12 @@ name: Code Test & Analysis
 on:
   push:
     branches: ['main']
+    paths-ignore:
+      - '**/*.md'
   pull_request:
     types: [opened, synchronize, reopened]
+    paths-ignore:
+      - '**/*.md'
   workflow_dispatch:
 
 jobs:
