@@ -41,7 +41,9 @@ jobs:
       run: |
         sudo apt-get install unzip
         ls -a
-        unzip artifact/zap_scan -d extracted
+        cd ./artifact
+        ls -a
+        unzip zap_scan -d extracted
 
     - name: Move and Rename ZAP Report
       run: |
