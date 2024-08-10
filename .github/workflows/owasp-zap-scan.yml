@@ -2,7 +2,7 @@ name: Owasp ZAP Scan
 
 on: 
   workflow_run:
-    workflows: ['code-analysis']
+    workflows: ["Code Test & Analysis"]
     types:
       - completed
   workflow_dispatch:
