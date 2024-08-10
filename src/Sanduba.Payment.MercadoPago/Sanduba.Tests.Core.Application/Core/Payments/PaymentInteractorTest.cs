@@ -9,6 +9,7 @@ using Sanduba.Core.Domain.Orders;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Sanduba.Core.Application.Abstraction.Orders.Events;
 
 
 namespace Sanduba.Test.Unit.Core.Payments
@@ -88,6 +89,7 @@ namespace Sanduba.Test.Unit.Core.Payments
             var payment = PaymentFixture.PaymentSentToProvider(Guid.NewGuid());
 
             var paymentDetail = new PaymentDetailData(PaymentStatus.Payed, "ExternalPaymentId", DateTimeOffset.Now);
+            var paymentConfirmationEvent = new OrderPaymentConfirmedEvent(payment.Order.Id, payment.Id, payment.Method, payment.Provider);
 
             _paymentRepositoryMock
                 .Setup(repo => repo.GetByExternalProviderId(requestModel.Id, CancellationToken.None)).ReturnsAsync(payment);
@@ -102,7 +104,7 @@ namespace Sanduba.Test.Unit.Core.Payments
             // Assert
             Assert.Equal(Status.Payed, payment.Status);
             _paymentRepositoryMock.Verify(repo => repo.UpdateAsync(It.IsAny<Payment>(), It.IsAny<CancellationToken>()), Times.Once);
-            _paymentNotificationMock.Verify(broker => broker.UpdatedPayment(paymentDetail, CancellationToken.None), Times.Once);
+            _paymentNotificationMock.Verify(broker => broker.UpdatedPayment(paymentConfirmationEvent, CancellationToken.None), Times.Once);
         }
 
         [Fact]
@@ -113,6 +115,7 @@ namespace Sanduba.Test.Unit.Core.Payments
             var payment = PaymentFixture.PaymentSentToProvider(Guid.NewGuid());
 
             var paymentDetail = new PaymentDetailData(PaymentStatus.WaitingPayment, null, null);
+            var paymentConfirmationEvent = new OrderPaymentConfirmedEvent(payment.Order.Id, payment.Id, payment.Method, payment.Provider);
 
             _paymentRepositoryMock
                 .Setup(repo => repo.GetByExternalProviderId(requestModel.Id, CancellationToken.None)).ReturnsAsync(payment);
@@ -127,7 +130,7 @@ namespace Sanduba.Test.Unit.Core.Payments
             // Assert
             Assert.Equal(Status.WaitingPayment, payment.Status);
             _paymentRepositoryMock.Verify(repo => repo.UpdateAsync(It.IsAny<Payment>(), It.IsAny<CancellationToken>()), Times.Never);
-            _paymentNotificationMock.Verify(broker => broker.UpdatedPayment(paymentDetail, CancellationToken.None), Times.Never);
+            _paymentNotificationMock.Verify(broker => broker.UpdatedPayment(paymentConfirmationEvent, CancellationToken.None), Times.Never);
         }
 
         [Fact]
@@ -138,6 +141,7 @@ namespace Sanduba.Test.Unit.Core.Payments
             var payment = PaymentFixture.PaymentSentToProvider(Guid.NewGuid());
 
             var paymentDetail = new PaymentDetailData(PaymentStatus.Cancelled, null, null);
+            var paymentRejectedEvent = new OrderPaymentRejectedEvent(payment.Order.Id, "Rejected");
 
             _paymentRepositoryMock
                 .Setup(repo => repo.GetByExternalProviderId(requestModel.Id, CancellationToken.None)).ReturnsAsync(payment);
@@ -152,7 +156,7 @@ namespace Sanduba.Test.Unit.Core.Payments
             // Assert
             Assert.Equal(Status.Cancelled, payment.Status);
             _paymentRepositoryMock.Verify(repo => repo.UpdateAsync(It.IsAny<Payment>(), It.IsAny<CancellationToken>()), Times.Once);
-            _paymentNotificationMock.Verify(broker => broker.UpdatedPayment(paymentDetail, CancellationToken.None), Times.Once);
+            _paymentNotificationMock.Verify(broker => broker.UpdatedPayment(paymentRejectedEvent, CancellationToken.None), Times.Once);
         }
 
         [Fact]

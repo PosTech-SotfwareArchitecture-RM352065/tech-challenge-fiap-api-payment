@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sanduba.Core.Application.Abstraction.Orders.Events;
 using Sanduba.Core.Application.Payments;
 using Sanduba.Core.Application.Payments.ResponseModel.ExternalProvider;
 using Sanduba.Infrastructure.Broker.ServiceBus.Configurations.Options;
@@ -28,7 +29,8 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
                 options.UsingAzureServiceBus((context, config) =>
                 {
                     config.Host(configuration["BrokerSettings:TopicConnectionString"]);
-                    config.Message<PaymentDetailData>(x =>
+
+                    config.Message<OrderPaymentConfirmedEvent>(x =>
                     {
                         x.SetEntityName(configuration["BrokerSettings:TopicName"]);
                     });

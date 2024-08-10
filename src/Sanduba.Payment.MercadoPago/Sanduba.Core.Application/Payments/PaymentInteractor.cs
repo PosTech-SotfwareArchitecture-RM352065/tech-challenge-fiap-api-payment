@@ -1,4 +1,5 @@
-﻿using Sanduba.Core.Application.Payments.RequestModel;
+﻿using Sanduba.Core.Application.Abstraction.Orders.Events;
+using Sanduba.Core.Application.Payments.RequestModel;
 using Sanduba.Core.Application.Payments.ResponseModel;
 using Sanduba.Core.Domain.Payments;
 using System;
@@ -45,20 +46,29 @@ namespace Sanduba.Core.Application.Payments
 
         public void SyncExternalStatus(UpdatePaymentRequestModel requestModel)
         {
-            var payment = _paymentRepository.GetByExternalProviderId(requestModel.Id, CancellationToken.None);
-            payment.Wait();
+            var payment = _paymentRepository.GetByExternalProviderId(requestModel.Id, CancellationToken.None).Result;
 
-            if (payment.Result == null) return;
+            if (payment == null) return;
 
-            var paymentDetail = _externalProvider.GetPaymentData(payment.Result).Result;
+            var paymentDetail = _externalProvider.GetPaymentData(payment).Result;
 
             if (paymentDetail is null || paymentDetail.Status is PaymentStatus.WaitingPayment) return;
 
-            if (paymentDetail.Status == PaymentStatus.Payed) payment.Result.Payed();
-            if (paymentDetail.Status == PaymentStatus.Cancelled) payment.Result.Cancelled();
+            if (paymentDetail.Status == PaymentStatus.Payed) payment.Payed();
+            if (paymentDetail.Status == PaymentStatus.Cancelled) payment.Cancelled();
 
-            _paymentRepository.UpdateAsync(payment.Result, CancellationToken.None).Wait();
-            _paymentNotification.UpdatedPayment(paymentDetail, CancellationToken.None);
+            _paymentRepository.UpdateAsync(payment, CancellationToken.None).Wait();
+
+            if (paymentDetail.Status == PaymentStatus.Payed)
+            {
+                var paymentConfirmedEvent = new OrderPaymentConfirmedEvent(payment.Order.Id, payment.Id, payment.Method, payment.Provider);
+                _paymentNotification.UpdatedPayment(paymentConfirmedEvent, CancellationToken.None);
+            }
+            else
+            {
+                var paymentRejectedEvent = new OrderPaymentRejectedEvent(payment.Order.Id, $"Pagamento em {payment.Method} no {payment.Provider} rejeitado");
+                _paymentNotification.UpdatedPayment(paymentRejectedEvent, CancellationToken.None);
+            }
         }
 
         public QueryPaymentByIdResponseModel? GetPaymentById(QueryPaymentByIdRequestModel requestModel)
