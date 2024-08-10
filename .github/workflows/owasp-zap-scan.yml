@@ -10,7 +10,7 @@ on:
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
-    name: Scan ZAP website
+    name: API Scan
 
     steps:
       - name: Checkout code
@@ -34,8 +34,6 @@ jobs:
 
     - name: Download ZAP Report Artifact
       uses: actions/download-artifact@v4
-      with:
-        path: ./artifact
 
     - name: Extract ZIP
       run: |
