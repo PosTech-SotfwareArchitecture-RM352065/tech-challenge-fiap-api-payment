@@ -29,7 +29,7 @@ namespace Sanduba.Infrastructure.Persistence.MongoDb.Payments
 
         public async Task<IEnumerable<Payment>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var results = await _dbContext.Payments.FindAsync(_ => true);
+            var results = await _dbContext.Payments.FindAsync(payment => true);
             return results.ToList();
         }
 

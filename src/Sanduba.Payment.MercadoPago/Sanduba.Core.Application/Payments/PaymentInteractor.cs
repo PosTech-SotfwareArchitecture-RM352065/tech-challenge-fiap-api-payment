@@ -3,6 +3,8 @@ using Sanduba.Core.Application.Payments.RequestModel;
 using Sanduba.Core.Application.Payments.ResponseModel;
 using Sanduba.Core.Domain.Payments;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using PaymentStatus = Sanduba.Core.Application.Payments.ResponseModel.ExternalProvider.PaymentStatus;
 
@@ -86,6 +88,24 @@ namespace Sanduba.Core.Application.Payments
                         Provider: query.Result.Provider,
                         ExternalId: query.Result.ExternalId,
                         QrData: query.Result.QrData);
+        }
+
+        public List<QueryPaymentByIdResponseModel> GetAllPayments()
+        {
+            var payments = _paymentRepository.GetAllAsync(CancellationToken.None).Result;
+
+            if (payments == null) return new List<QueryPaymentByIdResponseModel>();
+
+            return payments.Select(payment =>
+                new QueryPaymentByIdResponseModel(
+                        Id: payment.Id,
+                        Status: payment.Status,
+                        Order: payment.Order,
+                        Method: payment.Method,
+                        Provider: payment.Provider,
+                        ExternalId: payment.ExternalId,
+                        QrData: payment.QrData)
+                ).ToList();
         }
     }
 }

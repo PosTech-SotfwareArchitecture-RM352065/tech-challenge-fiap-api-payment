@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Sanduba.Cloud.Function.MercadoPago
 {
@@ -82,6 +83,20 @@ namespace Sanduba.Cloud.Function.MercadoPago
             else
             {
                 return new BadRequestObjectResult("Invalid Id!");
+            }
+        }
+
+        [Function("PaymentAdminQuery")]
+        public ActionResult GetAllCustomers([HttpTrigger(AuthorizationLevel.Admin, "get")] HttpRequest req)
+        {
+            try
+            {
+               return new OkObjectResult(_paymentInteractor.GetAllPayments());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }
